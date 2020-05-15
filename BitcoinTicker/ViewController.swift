@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     let baseURL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
@@ -22,18 +22,30 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        currencyPicker.delegate = self
+        currencyPicker.dataSource = self
     }
 
     
     //TODO: Place your 3 UIPickerView delegate methods here
-    
-    
-    
-
-    
-    
-    
+    //Función que regresa el número de columnas.
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    //Función que regresa el número de filas.
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return currencyArray.count
+    }
+    //Función que llena el picker view con los strings del arreglo currencyArray.
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return currencyArray[row]
+    }
+    //Función que realiza una acción, cuando el usuario selecciona un elemento.
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print(currencyArray[row])
+        finalURL = baseURL + currencyArray[row]
+        print(finalURL)
+    }
 //    
 //    //MARK: - Networking
 //    /***************************************************************/
